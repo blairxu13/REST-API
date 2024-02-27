@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: Movie Ticket Booking API
+  version: 1.0.0
+  description: API for making payments for movie tickets online.
+servers:
+  - url: https://example.com/api/v1
+paths:
+  /payment:
+    post:
+      summary: Make a payment for movie tickets.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  description: The total amount to be paid.
+                card_number:
+                  type: string
+                  description: The credit/debit card number.
+                expiration_date:
+                  type: string
+                  format: date
+                  description: The expiration date of the card.
+                cvv:
+                  type: string
+                  description: The CVV code of the card.
+                billing_address:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                      description: The street address.
+                    city:
+                      type: string
+                      description: The city.
+                    state:
+                      type: string
+                      description: The state/province.
+                    postal_code:
+                      type: string
+                      description: The postal code.
+                    country:
+                      type: string
+                      description: The country.
+                  required:
+                    - street
+                    - city
+                    - state
+                    - postal_code
+                    - country
+                  description: The billing address associated with the card.
+      responses:
+        '200':
+          description: Payment successful.
+        '400':
+          description: Bad request, missing or invalid parameters.
+        '401':
+          description: Unauthorized, authentication required.
+        '403':
+          description: Forbidden, insufficient permissions.
+        '500':
+          description: Internal server error, please try again later.
