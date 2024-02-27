@@ -1,14 +1,14 @@
 openapi: 3.0.0
 info:
-  title: Movie Ticket Booking API
+  title: Movie Theater Ticket Booking API
   version: 1.0.0
-  description: API for making payments for movie tickets online.
+  description: API for buying movie tickets online, including payment processing.
 servers:
   - url: https://example.com/api/v1
 paths:
   /payment:
     post:
-      summary: Make a payment for movie tickets.
+      summary: Process payment for movie tickets.
       requestBody:
         required: true
         content:
@@ -16,9 +16,6 @@ paths:
             schema:
               type: object
               properties:
-                amount:
-                  type: number
-                  description: The total amount to be paid.
                 card_number:
                   type: string
                   description: The credit/debit card number.
@@ -30,30 +27,7 @@ paths:
                   type: string
                   description: The CVV code of the card.
                 billing_address:
-                  type: object
-                  properties:
-                    street:
-                      type: string
-                      description: The street address.
-                    city:
-                      type: string
-                      description: The city.
-                    state:
-                      type: string
-                      description: The state/province.
-                    postal_code:
-                      type: string
-                      description: The postal code.
-                    country:
-                      type: string
-                      description: The country.
-                  required:
-                    - street
-                    - city
-                    - state
-                    - postal_code
-                    - country
-                  description: The billing address associated with the card.
+                  $ref: '#/components/schemas/Address'
       responses:
         '200':
           description: Payment successful.
@@ -65,3 +39,23 @@ paths:
           description: Forbidden, insufficient permissions.
         '500':
           description: Internal server error, please try again later.
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+          description: The street address.
+        city:
+          type: string
+          description: The city.
+        state:
+          type: string
+          description: The state/province.
+        postal_code:
+          type: string
+          description: The postal code.
+        country:
+          type: string
+          description: The country.
